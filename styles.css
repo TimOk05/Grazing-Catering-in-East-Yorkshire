@@ -141,18 +141,26 @@ a {
   width: 47px;
   height: 47px;
   display: grid;
+  grid-template-rows: 1fr auto 1fr;
   place-items: center;
+  padding: 4px 0;
   border: 1px solid currentColor;
   border-radius: 50%;
   font-family: var(--serif);
-  font-size: 16px;
-  letter-spacing: -0.1em;
+  letter-spacing: 0;
+  line-height: 1;
 }
 
-.brand-mark span {
+.brand-mark__letter {
+  font-size: 14px;
+  line-height: 0.85;
+}
+
+.brand-mark__amp {
   color: var(--berry);
-  font-size: 13px;
+  font-size: 12px;
   font-style: italic;
+  line-height: 1;
 }
 
 .brand-name {
@@ -1033,7 +1041,7 @@ a {
   color: #fff8f2;
 }
 
-.brand--footer .brand-mark span,
+.brand--footer .brand-mark__amp,
 .brand--footer .brand-name i {
   color: #e6b8c5;
 }
@@ -1165,7 +1173,15 @@ a {
   .brand-mark {
     width: 40px;
     height: 40px;
-    font-size: 14px;
+    padding: 3px 0;
+  }
+
+  .brand-mark__letter {
+    font-size: 12px;
+  }
+
+  .brand-mark__amp {
+    font-size: 10px;
   }
 
   .brand-name {
