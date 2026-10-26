@@ -56,6 +56,36 @@ test('keyboard users can reach the skip link and menu', async ({ page }) => {
   await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
 });
 
+test('approach image reveals after navigation to the section', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'chromium');
+  await page.goto('/');
+
+  const imageWrap = page.locator('.editorial__image');
+  const image = imageWrap.locator('img');
+  const initialClip = await image.evaluate((element) => getComputedStyle(element).clipPath);
+  expect(initialClip).toContain('100%');
+
+  await page
+    .getByRole('navigation', { name: 'Primary navigation' })
+    .getByRole('link', { name: 'Our approach' })
+    .click();
+
+  await expect(page).toHaveURL(/#approach$/);
+  await expect(imageWrap).toHaveClass(/is-visible/);
+  await expect.poll(() => image.evaluate((element) => getComputedStyle(element).clipPath)).toBe('inset(0px)');
+});
+
+test('approach image reveals when scrolled into view', async ({ page }) => {
+  await page.goto('/');
+
+  const imageWrap = page.locator('.editorial__image');
+  const image = imageWrap.locator('img');
+  await imageWrap.scrollIntoViewIfNeeded();
+
+  await expect(imageWrap).toHaveClass(/is-visible/);
+  await expect.poll(() => image.evaluate((element) => getComputedStyle(element).clipPath)).toBe('inset(0px)');
+});
+
 test('mobile menu opens, navigates and closes', async ({ page }, testInfo) => {
   test.skip(!testInfo.project.name.includes('mobile'));
   await page.goto('/');
